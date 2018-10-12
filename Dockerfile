@@ -17,6 +17,9 @@ RUN dotnet publish -c Release -o out
 
 FROM microsoft/dotnet:2.1-runtime AS runtime
 WORKDIR /app
+RUN echo "deb http://raspbian.raspberrypi.org/raspbian/ stretch main contrib non-free rpi firmware" >>  /etc/apt/sources.list \
+    && apt-key adv --keyserver pgp.mit.edu  --recv-key 0x9165938D90FDDD2E
+    
 RUN apt-get update && apt-get install -y \
   libraspberrypi0 \
   && rm -rf /var/lib/apt/lists/*
