@@ -18,7 +18,7 @@ namespace Capture
                 var cam = MMALCamera.Instance;
                 try
                 {
-                    using (var imgCaptureHandler = new ImageStreamCaptureHandler("/home/pi/images/", "jpg"))
+                    using (var imgCaptureHandler = new ImageStreamCaptureHandler("images/", "jpg"))
                     {
                         await cam.TakePicture(imgCaptureHandler, MMALEncoding.JPEG, MMALEncoding.I420);
                     }
