@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <Copyright>SceneSkope 2016, 2017, 2018</Copyright>
+    <Authors>nick.randell@sceneskope.com</Authors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PackageIconUrl>https://sceneskope.io/images/sceneskope-logo.png</PackageIconUrl>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Roslynator.Analyzers" Version="1.9.0" PrivateAssets="All" />
+    <Compile Include="../GlobalSuppressions.cs" />
+  </ItemGroup>
+</Project>
