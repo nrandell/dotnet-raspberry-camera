@@ -17,5 +17,9 @@ RUN dotnet publish -c Release -o out
 
 FROM microsoft/dotnet:2.1-runtime AS runtime
 WORKDIR /app
+RUN apt-get update && apt-get install -y \
+  libraspberrypi0 \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY --from=publish /app/Capture/out ./
 ENTRYPOINT ["dotnet", "Capture.dll"]
