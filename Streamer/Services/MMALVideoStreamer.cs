@@ -12,7 +12,7 @@ namespace Streamer.Services
     {
         public ILogger Logger { get; }
         private Task _runner;
-        private CircularMemoryStream _stream = new CircularMemoryStream(64 * 1024 * 1024);
+        private CircularMemoryStream _stream = new CircularMemoryStream(4 * 1024 * 1024);
 
         public MMALVideoStreamer(ILogger<MMALVideoStreamer> logger)
         {

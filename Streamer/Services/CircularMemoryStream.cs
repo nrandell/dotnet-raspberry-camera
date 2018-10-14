@@ -64,10 +64,11 @@ namespace Streamer.Services
         {
             var writeBuffer = _buffer;
             var length = _length;
-            if (count > writeBuffer.Length - length)
+            if (count > writeBuffer.Length)
             {
-                throw new EndOfStreamException();
+                throw new ArgumentOutOfRangeException("Too much data to write");
             }
+
             var writePosition = _writePosition;
             while (count > 0)
             {
@@ -79,7 +80,14 @@ namespace Streamer.Services
                 length += amountToWrite;
             }
             _writePosition = writePosition;
-            _length = length;
+            if (length > writeBuffer.Length)
+            {
+                _length = writeBuffer.Length;
+            }
+            else
+            {
+                _length = length;
+            }
         }
     }
 }
