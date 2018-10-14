@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 
 namespace Streamer.Services
@@ -9,9 +10,12 @@ namespace Streamer.Services
         internal long _position;
         internal readonly byte[] _buffer;
 
-        public CircularMemoryWriteStream(int size)
+        public ILogger Logger { get; }
+
+        public CircularMemoryWriteStream(int size, ILogger logger)
         {
             _buffer = new byte[size];
+            Logger = logger;
         }
 
         public override bool CanRead => false;
@@ -56,6 +60,7 @@ namespace Streamer.Services
             }
             _position = position;
             _length = length;
+            Logger.LogInformation("Write to {Position}/{Length}", _position, _length);
         }
     }
 }

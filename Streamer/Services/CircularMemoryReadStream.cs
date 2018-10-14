@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 
 namespace Streamer.Services
@@ -7,10 +8,12 @@ namespace Streamer.Services
     {
         private long _position;
         private readonly CircularMemoryWriteStream _stream;
+        public ILogger Logger { get; }
 
-        public CircularMemoryReadStream(CircularMemoryWriteStream stream)
+        public CircularMemoryReadStream(CircularMemoryWriteStream stream, ILogger logger)
         {
             _stream = stream;
+            Logger = logger;
         }
 
         public override bool CanRead => true;
@@ -48,6 +51,7 @@ namespace Streamer.Services
             }
 
             _position = position;
+            Logger.LogInformation("Read {Amount} to {Position}", readLength, _position);
             return readLength;
         }
 

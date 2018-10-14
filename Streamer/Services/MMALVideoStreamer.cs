@@ -13,14 +13,15 @@ namespace Streamer.Services
     {
         public ILogger Logger { get; }
         public IApplicationLifetime Lifetime { get; }
-        private Task _runner;
-        private CircularMemoryWriteStream _stream = new CircularMemoryWriteStream(4 * 1024 * 1024);
+        private readonly Task _runner;
+        private readonly CircularMemoryWriteStream _stream;
 
         public MMALVideoStreamer(ILogger<MMALVideoStreamer> logger, IApplicationLifetime lifetime)
         {
             Logger = logger;
             Lifetime = lifetime;
             _runner = Task.Factory.StartNew(Runner, TaskCreationOptions.LongRunning).Unwrap();
+            _stream = new CircularMemoryWriteStream(4 * 1024 * 1024, Logger);
         }
 
         private async Task Runner()
@@ -49,9 +50,8 @@ namespace Streamer.Services
             {
                 camera.Cleanup();
             }
-
         }
 
-        public Task<Stream> GetVideoStream() => Task.FromResult((Stream)new CircularMemoryReadStream(_stream));
+        public Task<Stream> GetVideoStream() => Task.FromResult((Stream)new CircularMemoryReadStream(_stream, Logger));
     }
 }
