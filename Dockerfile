@@ -2,7 +2,7 @@ FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
-COPY *.sln .
+COPY *.sln Directory.Build.props GlobalSuppressions.cs .
 COPY Capture/*.csproj ./Capture/
 RUN dotnet restore
 

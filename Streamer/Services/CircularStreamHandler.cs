@@ -2,9 +2,9 @@
 
 namespace Streamer.Services
 {
-    public class CircularStreamHandler : StreamCaptureHandler<CircularMemoryStream>
+    public class CircularStreamHandler : StreamCaptureHandler<CircularMemoryWriteStream>
     {
-        public CircularStreamHandler(CircularMemoryStream stream)
+        public CircularStreamHandler(CircularMemoryWriteStream stream)
         {
             CurrentStream = stream;
         }

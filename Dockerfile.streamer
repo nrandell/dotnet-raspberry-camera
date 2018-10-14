@@ -1,6 +1,6 @@
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
-COPY *.sln .
+COPY *.sln Directory.Build.props GlobalSuppressions.cs .
 COPY ["Streamer/Streamer.csproj", "Streamer/"]
 RUN dotnet restore "Streamer/Streamer.csproj"
 

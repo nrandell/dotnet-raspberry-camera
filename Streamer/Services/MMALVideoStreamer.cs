@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using MMALSharp;
 using MMALSharp.Components;
 using MMALSharp.Native;
@@ -11,12 +12,14 @@ namespace Streamer.Services
     public class MMALVideoStreamer : IVideoStreamer
     {
         public ILogger Logger { get; }
+        public IApplicationLifetime Lifetime { get; }
         private Task _runner;
-        private CircularMemoryStream _stream = new CircularMemoryStream(4 * 1024 * 1024);
+        private CircularMemoryWriteStream _stream = new CircularMemoryWriteStream(4 * 1024 * 1024);
 
-        public MMALVideoStreamer(ILogger<MMALVideoStreamer> logger)
+        public MMALVideoStreamer(ILogger<MMALVideoStreamer> logger, IApplicationLifetime lifetime)
         {
             Logger = logger;
+            Lifetime = lifetime;
             _runner = Task.Factory.StartNew(Runner, TaskCreationOptions.LongRunning).Unwrap();
         }
 
@@ -33,7 +36,8 @@ namespace Streamer.Services
                     videoEncoder.ConfigureOutputPort(0, MMALEncoding.H264, MMALEncoding.I420, 0);
                     camera.Camera.VideoPort.ConnectTo(videoEncoder);
                     await Task.Delay(2000); // warm up
-                    await camera.ProcessAsync(camera.Camera.VideoPort);
+                    Logger.LogInformation("Ready to stream");
+                    await camera.ProcessAsync(camera.Camera.VideoPort, Lifetime.ApplicationStopping);
                 }
             }
             catch (Exception ex)
@@ -48,6 +52,6 @@ namespace Streamer.Services
 
         }
 
-        public Task<Stream> GetVideoStream() => Task.FromResult((Stream)_stream);
+        public Task<Stream> GetVideoStream() => Task.FromResult((Stream)new CircularMemoryReadStream(_stream));
     }
 }

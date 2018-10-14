@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EED352DA-44BE-4535-9CA8-B72F6FE995AE}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		Dockerfile = Dockerfile
+		Dockerfile.streamer = Dockerfile.streamer
 		GlobalSuppressions.cs = GlobalSuppressions.cs
 	EndProjectSection
 EndProject
