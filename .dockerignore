@@ -4,4 +4,8 @@
 **/.vscode
 **/.vs
 .dotnet
+.gitignore
+.dockerignore
+Dockerfile
+
 
